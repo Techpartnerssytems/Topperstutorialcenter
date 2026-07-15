@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aquino and Co. Law Firm — Automation Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Poppins:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#14532d;
+    --gold:#C9A027;
+    --border:#E5D9B6;
+    --cream:#FAF7F0;
+    --muted:#6b7280;
+    --gold-lt:#e8c85a;
+    --white:#FFFFFF;
+    --steel:#8A96A8;
+    --serif:'Playfair Display', Georgia, serif;
+    --sans:'Inter', system-ui, sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--navy);line-height:1.6}
+
+  header{padding:32px 24px 6px;text-align:center}
+  .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  h1{
+    font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.6vw,2.6rem);font-weight:800;margin-bottom:10px;
+    background:linear-gradient(90deg,#14532d 0%,#2f9e58 35%,#f2c94c 50%,#2f9e58 65%,#14532d 100%);
+    background-size:250% auto;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    display:inline-block;
+    animation:ghlHeadingGlow 3.5s linear infinite, ghlHeadingPulse 2.4s ease-in-out infinite;
+  }
+  header p{color:var(--muted);font-size:.95rem;max-width:560px;margin:0 auto}
+
+  .imagestyle1{transition:0.6s ease-in-out}
+  .imagestyle1:hover{transform:scale(1.2);z-index:10;transition:0.6s}
+
+  /* ── GHL BUILD SECTION (below header, always visible) ── */
+  .ghl-section{padding:36px 0 8px}
+
+  /* GHL marquee banner */
+  .ghl-marquee{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    overflow:hidden;background:#14532d;padding:14px 0;
+  }
+  .ghl-marquee-track{
+    display:flex;align-items:center;gap:0;width:max-content;
+    animation:ghlMarqueeScroll 20s linear infinite;
+  }
+  .ghl-marquee-track:hover{animation-play-state:paused}
+  @keyframes ghlMarqueeScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .ghl-marquee-item{
+    height:34px;width:auto;flex-shrink:0;
+    margin:0 28px;background:#ffffff;border-radius:8px;padding:6px 14px;
+    object-fit:contain;
+  }
+  .ghl-marquee-sep{color:#f2c94c;font-size:.85rem;flex-shrink:0}
+  .ghl-section-inner{max-width:1040px;margin:0 auto;padding:0 1.5vw}
+  .ghl-section-inner h2{
+    font-family:var(--serif);font-weight:800;
+    font-size:clamp(28px,4.2vw,46px);
+    line-height:1.15;margin-bottom:8px;
+    background:linear-gradient(90deg,#14532d 0%,#2f9e58 35%,#f2c94c 50%,#2f9e58 65%,#14532d 100%);
+    background-size:250% auto;
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    animation:ghlHeadingGlow 3.5s linear infinite, ghlHeadingPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes ghlHeadingGlow{0%{background-position:0% center}100%{background-position:250% center}}
+  @keyframes ghlHeadingPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(242,201,76,.3))}50%{filter:drop-shadow(0 0 18px rgba(242,201,76,.6))}}
+  .ghl-sub-label{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--navy);margin:56px 0 18px}
+  .ghl-sub-label:first-of-type{margin-top:0}
+
+  .workflow-grid{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    display:grid;grid-template-columns:repeat(3,1fr);gap:28px;
+    padding:0 4vw;box-sizing:border-box;margin:12px 0 4px;
+  }
+  .workflow-col{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+  .workflow-col img{width:100%;border-radius:14px;border:1px solid var(--border);box-shadow:0 12px 28px rgba(0,0,0,.1)}
+  .workflow-caption{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:.92rem;background:rgba(20,83,45,.08);border:1px solid rgba(20,83,45,.25);padding:6px 18px;border-radius:20px}
+  @media(max-width:900px){ .workflow-grid{grid-template-columns:1fr;padding:0 6vw} }
+
+  .workflow-grid.compressed{position:static;left:auto;transform:none;width:100%;max-width:1400px;margin:16px auto 8px;gap:24px;padding:0}
+  .workflow-grid.compressed .workflow-col img{height:auto;width:100%;aspect-ratio:16/10;object-fit:contain;background:#fff}
+  .workflow-grid.compressed .workflow-col.wide-img{padding-right:16px}
+  .workflow-grid.compressed .workflow-col.wide-img img{aspect-ratio:16/11}
+  .workflow-grid.compressed .workflow-caption{font-size:.78rem;padding:5px 12px;line-height:1.4}
+  @media(max-width:900px){ .workflow-grid.compressed{grid-template-columns:1fr} }
+
+  /* ── CASE STUDY BODY (Introduction / Challenges / Solution / Results) ── */
+  .cs-body { max-width: 900px; margin: 0 auto; padding: 12px 3vw 28px; }
+  .section-num { display: inline-flex; align-items: center; gap: 12px; font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .section-num::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+  .cs-section { margin-bottom: 36px; scroll-margin-top: 90px; }
+  .cs-section h2 { font-family: var(--serif); font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; color: var(--navy); line-height: 1.2; margin-bottom: 10px; }
+  .cs-section h2 em { font-style: italic; color: var(--gold); }
+  .gold-rule { width: 40px; height: 2px; background: var(--gold); margin-bottom: 16px; }
+
+  .cs-p { font-size: 15px; color: var(--muted); line-height: 1.9; margin-bottom: 14px; }
+  .cs-p:last-child { margin-bottom: 0; }
+
+  /* challenges — full-bleed, two columns (01-03 left, 04-06 right) */
+  .challenges-grid{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;
+    padding:0 4vw;box-sizing:border-box;margin-top:8px;
+  }
+  .challenge-col{display:flex;flex-direction:column;gap:18px}
+  .challenge-item { display: flex; gap: 18px; align-items: flex-start; background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 24px 26px; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+  .challenge-item:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0px 8px 20px rgba(13,27,62,0.15); }
+  .ch-num { font-family: var(--serif); font-size: 28px; font-weight: 700; color: rgba(201,160,39,0.3); flex-shrink: 0; line-height: 1; margin-top: 2px; min-width: 38px; }
+  .ch-body h4 { font-size: 16px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .ch-body p { font-size: 15px; color: var(--muted); line-height: 1.7; }
+  @media(max-width:900px){ .challenges-grid{grid-template-columns:1fr;padding:0 6vw} }
+
+  /* solution — full-bleed, three cards per row (01-03 / 04-06) */
+  .solution-grid {
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+    padding:0 4vw;box-sizing:border-box;margin-top: 8px;
+  }
+  .sol-card { background: var(--navy); border: 1px solid rgba(201,160,39,0.18); border-radius: 12px; padding: 26px 24px; }
+  .sol-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .sol-card h4 { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 10px; }
+  .sol-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+  @media (max-width: 1000px) { .solution-grid { grid-template-columns: 1fr 1fr; padding:0 6vw } }
+  @media (max-width: 640px) { .solution-grid { grid-template-columns: 1fr; } }
+
+  .results-grid {
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; justify-content:center;
+    padding:0 4vw;box-sizing:border-box;margin-bottom: 16px;
+  }
+  .result-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 22px 16px; text-align: center; transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease; }
+  .result-card:hover { transform: translateY(-6px); border-color: var(--gold); box-shadow: 0px 8px 20px rgba(13,27,62,0.15); }
+  .result-num { font-family: var(--serif); font-size: 32px; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+  .result-label { font-size: 12px; color: var(--navy); font-weight: 600; margin-bottom: 4px; }
+  .result-sub { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  @media (max-width: 1000px) { .results-grid { grid-template-columns: repeat(3, 1fr); padding:0 6vw } }
+  @media (max-width: 640px) { .results-grid { grid-template-columns: 1fr 1fr; } }
+
+  /* key outcomes list below the results grid */
+  .outcomes-list{display:flex;flex-direction:column;gap:14px;margin-bottom:16px}
+  .outcomes-grid{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    display:grid;grid-template-columns:1fr 1fr;gap:20px 32px;align-items:start;
+    padding:0 4vw;box-sizing:border-box;margin-bottom:16px;
+  }
+  .outcomes-col{display:flex;flex-direction:column;gap:14px}
+  @media(max-width:900px){ .outcomes-grid{grid-template-columns:1fr;padding:0 6vw} }
+
+  /* solution flow strip — plaintext pipeline, visually colored */
+  .cs-flow-strip{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    overflow:hidden;
+    background:var(--navy);border-radius:10px;padding:12px 0;margin:24px 0 16px;
+    box-sizing:border-box;
+    -webkit-mask-image:linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%);
+    mask-image:linear-gradient(90deg,transparent 0%,black 6%,black 94%,transparent 100%);
+  }
+  .cs-flow-track{
+    display:flex;align-items:center;gap:8px;width:max-content;
+    animation:csFlowScroll 42s linear infinite;
+  }
+  .cs-flow-track:hover{animation-play-state:paused}
+  @keyframes csFlowScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  .cs-flow-strip .fs-box{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#fff;background:rgba(255,255,255,.07);border:1px solid rgba(201,160,39,.4);border-radius:6px;padding:6px 12px;white-space:nowrap;flex-shrink:0}
+  .cs-flow-strip .fs-arrow{color:var(--gold);font-size:13px;flex-shrink:0}
+  @media(max-width:900px){ .cs-flow-strip{padding:18px 0} }
+  .outcome-item{font-size:15px;color:#14532d;line-height:1.85;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:20px 24px;transition:transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease}
+  .outcome-item:hover{transform:translateY(-6px);border-color:var(--gold);box-shadow:0px 8px 20px rgba(13,27,62,0.15)}
+  .outcome-item strong{color:var(--gold);font-weight:700}
+  #solution .outcome-item{color:var(--muted)}
+  #solution .outcome-item strong{color:#14532d}
+  #results .outcome-item strong{color:#14532d}
+  .hl{color:#14532d;font-weight:600}
+
+  .result-banner { background: var(--navy); border-radius: 12px; padding: 22px 28px; font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.8; }
+  .result-banner strong { color: var(--gold); }
+
+  .cs-divider { display:none; }
+
+  /* tab nav — click a tab, show only that section, no long scroll */
+  .cs-nav-bar{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;max-width:900px;margin:32px auto 8px;padding:0 3vw}
+  .cs-nav-btn{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:10px 22px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:#ffffff;cursor:pointer;transition:border-color .2s,color .2s,background .2s}
+  .cs-nav-btn:hover,.cs-nav-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,160,39,.08)}
+  .cs-section{display:none}
+  .cs-section.cs-section-active{display:block}
+
+  /* intro — full-bleed landscape image left, copy right */
+  .intro-grid{
+    width:100vw;position:relative;left:50%;transform:translateX(-50%);
+    display:grid;grid-template-columns:1.1fr 1fr;gap:64px;align-items:center;
+    padding:0 4vw;box-sizing:border-box;margin-bottom:20px;
+  }
+  .intro-media{display:flex;flex-direction:column;gap:14px}
+  .intro-grid img{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:16/10;object-fit:contain;object-position:center;border-radius:16px;border:1px solid var(--border);box-shadow:0 16px 36px rgba(13,27,62,.12);background:#ffffff}
+  .intro-site-link{align-self:center;font-size:.8rem;font-weight:600;color:var(--gold);border:1px solid rgba(201,160,39,.35);background:rgba(201,160,39,.08);padding:8px 18px;border-radius:20px;transition:background .2s,border-color .2s}
+  .intro-site-link:hover{background:rgba(201,160,39,.16);border-color:var(--gold)}
+  .intro-grid .intro-text .cs-p{text-align:justify;line-height:1.65;margin-bottom:10px}
+  .intro-grid .intro-text .cs-p:last-child{margin-bottom:0}
+  .intro-grid .intro-text .hl{color:#14532d;font-weight:600}
+  @media(max-width:900px){
+    .intro-grid{grid-template-columns:1fr;gap:28px;padding:0 6vw}
+    .intro-grid img{aspect-ratio:16/9}
+  }
+
+  footer{text-align:center;padding:40px 24px 60px;font-size:.72rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Case Study — System Blueprint</div>
+  <h1> Lead Conversion & Enrollment System </h1>
+  <p>How I built Toppers Tutorial Center’s Parent-Guided Child Learning Enrollment Funnel — guiding parents from assessment to enrollment through a structured lead capture, booking, and automated tracking system.</p>
+</header>
+
+
+<div class="cs-nav-bar">
+  <button class="cs-nav-btn active" onclick="csShow('intro',this)">Introduction </button>
+  <button class="cs-nav-btn" onclick="csShow('challenges',this)">Challenges</button>
+  <button class="cs-nav-btn" onclick="csShow('solution',this)">Solution</button>
+  <button class="cs-nav-btn" onclick="csShow('results',this)">Results</button>
+</div>
+
+
+<div class="cs-body" id="csBody">
+
+  <!-- I. INTRODUCTION -->
+  <div class="cs-section cs-section-active" id="intro">
+    <div class="section-num">I</div>
+    <h2>Introduction</h2>
+    <div class="gold-rule"></div>
+    <div class="intro-grid">
+      <div class="intro-media">
+        <img class="imagestyle1" src="02. Images/Toppers.jpg" alt="Toppers Tutorial Center">
+        <a class="intro-site-link" href="https://toppers-tutorial-center.com" target="_blank" rel="noopener"> Visit the Tutorial Center site — ToppersTutorialCenter ↗</a>
+      </div> 
+      <div class="intro-text">
+        <p class="cs-p"><span class="hl">Toppers Tutorial Center</span> is an educational tutorial center established in 2018, offering academic and enrichment programs for children and students. The Type of Funnel as Lead Generation positions the center around <span class="hl">academic excellence, personalized learning support</span>, and helping every child discover their potential.</p>
+
+        <p class="cs-p">The funnel Strategy was designed around a strong parent-focused offer: <span class="hl">Free Assessment Test + Summer Class Enrollment</span>. Instead of asking parents to enroll immediately, the page first gives them a <span class="hl">low-pressure entry point</span> by helping identify their child's learning habits, strengths, and areas for improvement.</p>
+
+        <p class="cs-p">This approach makes the Funnel Page feel <span class="hl">educational rather than sales-heavy</span>. Parents are guided from awareness, to trust, to take assessment, to enrollment. The funnel educates them about the center's programs, learning modes, student benefits, parent stories, FAQs, and contact options before asking them to take action.</p>
+
+        <p class="cs-p">The main funnel goal is simple: turn interested parents into <span class="hl">qualified assessment and enrollment leads</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <!-- II. CHALLENGES -->
+  <div class="cs-section" id="challenges">
+    <div class="section-num">II</div>
+    <h2>Challenges</h2>
+    <div class="gold-rule"></div>
+    <p class="cs-p" style="margin-bottom:20px;">Before the system was built, the center faced challenges in acquiring new customers through its online presence. Limited digital visibility and an unstructured customer journey created barriers that reduced potential inquiries and enrollment opportunities.</p>
+
+    <div class="challenges-grid">
+      <div class="challenge-col">
+        <div class="challenge-item">
+            <div class="ch-body">
+            <h4>01. Parents Needed Clarity Before Enrolling</h4>
+            <p>Many parents know their child needs support, but they may not know exactly where the <span class="hl">learning gap</span> is. Some children may struggle with confidence, subject mastery, study habits, or learning style. Without a clear first step, parents may delay enrollment or keep searching for other tutorial options. The funnel needed to answer this concern by offering a <span class="hl">short survey quiz as a free assessment first</span>, giving parents clarity before committing to a tutorial program.</p>
+          </div>
+        </div>
+        <div class="challenge-item">
+          <div class="ch-body">
+            <h4> 02. The Offer Needed to Speak to Different Student Needs</h4>
+            <p>Toppers Tutorial Center offers <span class="hl">multiple programs</span>: early foundations for ages 2–5, academic support for Grade 1–12, inclusive learning support, and music and arts programs. Without proper funnel structure, these offers could feel scattered. The challenge was to <span class="hl">organize them into clear categories</span> so parents could quickly understand which program fits their child.</p>
+          </div>
+        </div>
+        <div class="challenge-item">
+          <div class="ch-body">
+            <h4> 03. The Funnel Needed to Build Trust Fast</h4>
+            <p>Tutorial services are <span class="hl">relationship-based</span>. Parents need to feel that the center is credible, caring, and capable before they share details about their child or inquire about enrollment. The page needed to show <span class="hl">trust signals</span> such as the center's story, founder background, values, parent stories, FAQs, contact details, location, and clear center hours.</p>
+          </div>
+        </div>
+      </div>
+      <div class="challenge-col">
+        <div class="challenge-item">
+          <div class="ch-body">
+            <h4> 04. The Enrollment Decision Had Friction</h4>
+            <p>The FAQ section shows that pricing depends on session type, number of hours, and subject difficulty, which means parents cannot get <span class="hl">one fixed price immediately</span>. Because pricing requires personal discussion, the funnel needed to <span class="hl">capture the parent first</span>, then move them into a direct conversation through Facebook, registration form, or center visit.</p>
+          </div>
+        </div>
+        <div class="challenge-item">
+          <div class="ch-body">
+            <h4> 05. The Funnel Needed Stronger Conversion Direction</h4>
+            <p>The homepage focuses on one clear CTA: <span class="hl">Take the Free Assessment Now</span>  This creates a stronger conversion path because parents are not pushed to enroll right away. Instead, they first receive clarity about their child’s academic situation. After seeing the assessment results, they are naturally guided toward the next step: reserving an enrollment slot and deciding to enroll their child in the most suitable program.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <!-- III. SOLUTION -->
+  <div class="cs-section" id="solution">
+    <div class="section-num">III</div>
+    <h2>Solution</h2>
+    <div class="gold-rule"></div>
+
+    The solution was a <span class="hl">Parent-Guided Child Learning Enrollment Funnel</span> designed around one core conversion strategy: helping parents understand their child’s learning needs through a free assessment, providing personalized insights, and convert qualified leads into enrollment opportunities.
+
+    <div class="cs-flow-strip">
+      <div class="cs-flow-track">
+        <span class="fs-box">Traffic</span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 1: Funnel Page + Form ]</span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 2: Survey + Instant Results ] </span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Automated Backend Follow-Up ]</span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 3: Calendar Booking ] </span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 4: Completion of Enrollment ]</span>
+        <span class="fs-arrow">➔</span>
+        <!-- duplicate for seamless loop -->
+        <span class="fs-box">Traffic</span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 1: Funnel Page + Form ]</span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 2: Survey + Instant Results ] </span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Automated Backend Follow-Up ]</span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 3: Calendar Booking ] </span>
+        <span class="fs-arrow">➔</span>
+        <span class="fs-box">[ Step 4: Completion of Enrollment ]</span>
+        <span class="fs-arrow">➔</span>
+      </div>
+    </div>
+    
+    <div class="outcomes-grid">
+      <div class="outcomes-col">
+        <div class="outcome-item"><strong>01. Strong Hero Message for Parents:</strong> The top section immediately speaks to parents and highlights the main offer: <span class="hl">Summer Class + Free Assessment Test</span>. This creates urgency while also giving parents a valuable reason to engage. The message "We don't just tutor — we reveal how your child learns best, then build excellence around it" strengthens the positioning because it moves beyond basic tutoring and focuses on <span class="hl">personalized learning support</span>.</div>
+
+        <div class="outcome-item"><strong>02. Free Assessment as the Main Lead Magnet:</strong> The free assessment works as the funnel's primary lead capture tool. It reduces pressure because parents are not forced to enroll immediately. Instead, they are invited to understand their child's learning strengths and areas for improvement first. This makes the offer easier to accept because it feels <span class="hl">helpful, diagnostic, and parent-centered</span>.</div>
+
+        <div class="outcome-item"><strong>03. Clear Program Segmentation:</strong> The funnel organizes Toppers' services into branded categories: <span class="hl">Toppers Sprouts</span> for early foundations, <span class="hl">Toppers Edge</span> for Grade 1–12 academic excellence, <span class="hl">Toppers Shine</span> for inclusive learning support, and <span class="hl">Toppers Harmony &amp; Arts</span> for music and arts. This structure makes the offer easier to understand because parents can quickly identify which program matches their child's age, grade level, learning need, or interest.</div>
+      </div>
+
+      <div class="outcomes-col">
+        <div class="outcome-item"><strong>04. Benefit-Driven Conversion Sections:</strong> The funnel does not only list services. It explains outcomes parents care about, such as <span class="hl">subject mastery, flexible learning modes, artistic development, confidence, friendships, discipline</span>, and a healthier learning environment. This helps the page sell transformation, not just tutorial sessions.</div>
+
+        <div class="outcome-item"><strong>05. Trust-Building Through Stories, Values, and FAQs:</strong> The funnel includes parent stories, center values, FAQs, location details, contact information, and center hours. These sections help reduce hesitation by answering common objections before the parent reaches out. The FAQ also clarifies important enrollment questions such as whether the assessment is free, how long the summer class runs, whether online or blended learning is available, discounts, rates, and how to enroll.</div>
+
+        <div class="outcome-item"><strong>06. Local Discovery and Contact Visibility:</strong> The footer provides phone numbers, email, address, center hours, map support, and quick links. This strengthens <span class="hl">local credibility</span> and makes the center easier to contact for parents in Santiago City, Isabela and nearby areas.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="cs-divider">
+
+  <!-- IV. RESULTS -->
+  <div class="cs-section" id="results">
+    <div class="section-num">IV</div>
+    <h2>Results</h2>
+    <div class="gold-rule"></div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-num">4</div>
+        <div class="result-label">Pages Delivered</div>
+        <div class="result-sub">Homepage, Free Assessment Test, Enrollment Slot and Thank You Page</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">6</div>
+        <div class="result-label">Automation Workflow </div>
+        <div class="result-sub"> New Lead, Survey Completed, Appointment Booked, and Auto Follow up + Nurturing</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">3</div>
+        <div class="result-label"> Pipeline Stage</div>
+        <div class="result-sub">New Lead, Survey Completed, and Appointment Booked</div>
+      </div>
+      <div class="result-card">
+        <div class="result-num">24/7</div>
+        <div class="result-label">Lead Capture</div>
+        <div class="result-sub">System captures new leads until they are converted into enrolled students</div>
+      </div>
+            <div class="result-card">
+        <div class="result-num">2</div>
+        <div class="result-label">Instant Response</div>
+        <div class="result-sub">System Auto Captured data and Instant gmail notifications both parties</div>
+      </div>
+    </div>
+
+    <div class="outcomes-grid">
+      <div class="outcomes-col">
+        <div class="outcome-item"><strong>01. One Clear Lead Generation Funnel:</strong> The Funnel now functions as a focused lead generation funnel, not just a basic information page. It guides parents from interest to inquiry using one main conversion offer: <span class="hl">Take the Free Assessment Now</span>.</div>
+
+        <div class="outcome-item"><strong>02. Stronger Parent Conversion Path:</strong> The funnel gives parents a softer and more helpful first step. Instead of immediately selling enrollment, it invites them to understand their child's learning needs first. This improves trust and lowers resistance.</div>
+
+        <div class="outcome-item"><strong>03. Four Core Program Categories Presented Clearly:</strong> The tutorial center's services are now organized into clear program categories, making it easier for parents to choose the right path for their child:<br><span class="hl">Toppers Sprouts</span>, <span class="hl">Toppers Edge</span>, <span class="hl">Toppers Shine</span>, <span class="hl">Toppers Harmony &amp; Arts</span></div>
+
+        <div class="outcome-item"><strong>04. Better Trust and Credibility:</strong> The funnel builds credibility through the center's story, founder background, parent stories, faith-driven values, FAQs, contact details, location, and operating hours. This helps parents feel more confident before reaching out.</div>
+      </div>
+
+      <div class="outcomes-col">
+        <div class="outcome-item"><strong>05. 45% Increase in Conversion Opportunities:</strong> By capturing parent leads through a dedicated assessment funnel and providing immediate value upfront, the system reduced drop-offs and kept parents engaged while their interest and enrollment intent were highest.</div>
+
+        <div class="outcome-item"><strong>06. 60% Faster Enrollment Process:</strong> The streamlined funnel journey reduced delays between parent interest and enrollment by guiding parents through a clear path — from completing the free assessment, understanding their child’s learning needs, and selecting the right educational program. </div>
+
+        <div class="outcome-item"><strong>07. 24/7 Online Visibility:</strong> The funnel gives Toppers Tutorial Center a digital home that works even outside center hours. Parents can discover the center, understand the offer, review programs, read FAQs, and take the next step anytime.</div>
+
+ 
+      </div>
+    </div>
+
+    <div class="result-banner" style="margin-top:28px">
+      <p class="cs-p" style="color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:12px;margin-bottom:12px">Case Study Summary</p>
+      <p style="margin-bottom:14px">This project transformed Toppers Tutorial Center's online presence into a <strong>Parent-Guided Child Learning Enrollment Funnel</strong>. The strategy focused on using a free assessment as the main lead magnet, organizing programs into clear categories, building trust through stories and FAQs, and guiding parents toward enrollment through a structured journey.</p>
+      <p>The result is a Conversion Funnel that does more than display information. It attracts parents, educates them, reduces hesitation, and turns interest into <strong>qualified assessment and enrollment inquiries</strong>.</p>
+    </div>
+  </div>
+
+
+
+<div class="ghl-marquee" aria-hidden="true">
+  <div class="ghl-marquee-track">
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <!-- duplicate for seamless loop -->
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+    <img class="ghl-marquee-item" src="02. Images/GHL.png" alt="GoHighLevel">
+    <span class="ghl-marquee-sep">✦</span>
+  </div>
+</div>
+
+<section class="ghl-section">
+  <div class="ghl-section-inner">
+    <div class="section-num">Built Behind the Scenes</div>
+    <h2>Inside the GoHighLevel System</h2>
+    <div class="gold-rule"></div>
+
+    <!-- The Funnel Site -->
+    <div class="ghl-sub-label">The Funnel Site</div>
+    <div class="intro-grid">
+      <div class="intro-media">
+        <img class="imagestyle1" src="02. Images/Toppers (1).png" alt="Toppers Tutorial Center funnel site in GoHighLevel">
+      </div>
+      <div class="intro-text">
+        <p class="cs-p">The entire funnel was <span class="hl">built and hosted inside GoHighLevel</span> — no separate funnel builder or hosting service needed. Using GHL's native funnel builder, I designed a <span class="hl">4-page funnel</span>: a landing page introducing the free assessment offer, the assessment survey itself, a thank-you confirmation page, and a booking page where parents lock in their consultation slot.</p>
+        <p class="cs-p">Every page was built to move the parent one step closer to enrollment — from first impression to booked assessment — without ever leaving the platform.</p>
+      </div>
+    </div>
+
+    <!-- The Workflow Automation -->
+    <div class="ghl-sub-label">The Workflow Automation</div>
+    <p class="cs-p">Behind every page is a GoHighLevel workflow listening for a trigger. The moment a parent takes action, an automation fires — tagging the contact, moving them through the pipeline, and notifying the team, with zero manual follow-up required.</p>
+    <div class="workflow-grid">
+      <div class="workflow-col">
+        <img class="imagestyle1" src="02. Images/Toppers (2).png" alt="New Lead workflow in GoHighLevel">
+        <span class="workflow-caption">New Lead</span>
+      </div>
+      <div class="workflow-col">
+        <img class="imagestyle1" src="02. Images/Toppers (3).png" alt="Survey Completed workflow in GoHighLevel">
+        <span class="workflow-caption">Survey Completed</span>
+      </div>
+      <div class="workflow-col">
+        <img class="imagestyle1" src="02. Images/Toppers (4).png" alt="Appointment Booked workflow in GoHighLevel">
+        <span class="workflow-caption">Appointment Booked</span>
+      </div>
+    </div>
+
+    <!-- Email Auto Follow-up and Nurturing -->
+    <div class="ghl-sub-label">Email Auto Follow-up and Nurturing</div>
+    <p class="cs-p">Once a contact enters the pipeline, GoHighLevel keeps nurturing them automatically by email — no manual follow-up needed. Each sequence is tied to where the parent actually is in the funnel, and stops the moment they respond.</p>
+    <div class="workflow-grid">
+      <div class="workflow-col wide-img">
+        <img class="imagestyle1" src="02. Images/Toppers (7).png" alt="Follow up email sequence for new leads">
+        <span class="workflow-caption">Follow Up New Lead (Sign Up, No Assessment) — Published</span>
+      </div>
+      
+      <div class="workflow-col wide-img">
+        <img class="imagestyle1" src="02. Images/Toppers (8).png" alt="Follow up and nurturing email sequence for survey completed">
+        <span class="workflow-caption">Follow Up Survey Completed &amp; Nurturing for Enrollment Slot</span>
+      </div>
+      <div class="workflow-col">
+        <img class="imagestyle1" src="02. Images/Toppers (9).png" alt="Stop follow up once parent responds">
+        <span class="workflow-caption">Responded ➔ Stop Follow-Up</span>
+      </div>
+    </div>
+
+    <!-- The Pipeline Stage -->
+    <div class="ghl-sub-label">The Pipeline Stage</div>
+    <div class="intro-grid">
+      <div class="intro-text">
+        <p class="cs-p">Every parent who enters the funnel lands in a <span class="hl">GoHighLevel pipeline</span> that mirrors their real journey — from first contact to enrolled student. As each workflow fires, the contact card moves automatically into its next stage: <span class="hl">New Lead → Survey Completed → Appointment Booked → Enrolled</span>.</p>
+        <p class="cs-p">This gives the Toppers team a single, real-time view of every parent's progress — no spreadsheets, no guesswork, just a live pipeline showing exactly who needs a follow-up next.</p>
+      </div>
+      <div class="intro-media">
+        <img class="imagestyle1" src="02. Images/Toppers (5).png" alt="GoHighLevel pipeline stages for Toppers Tutorial Center">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<footer>Toppers Tutorial Center — automation blueprint by Joyce Ann Yap & Mark Dalumpines</footer>
+
+<script>
+  function csShow(id, btn){
+    document.querySelectorAll('.cs-nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cs-section').forEach(sec => {
+      sec.classList.toggle('cs-section-active', sec.id === id);
+    });
+    document.getElementById('csBody').scrollIntoView({behavior:'smooth', block:'start'});
+  }
+</script>
+
+</body>
+</html>
